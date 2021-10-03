@@ -1,11 +1,18 @@
-import React from "react";
-import { useSocket as uSocket } from "../hooks/useSocket";
+import React, { useEffect, useState } from "react";
+
+import socketio from 'socket.io-client'
 
 const socketContext = React.createContext()
 
 export function SocketProvider(props){
 
-    const socket = uSocket('http://localhost:8000/')
+    const [socket, setSocket] = useState(null)
+
+    useEffect(() => {
+        setSocket(socketio('http://localhost:8000',{
+            forceNew:true,
+        }))
+    },[])
 
     return <socketContext.Provider value={socket} {...props}/>
 

@@ -1,13 +1,101 @@
-.board{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-template-rows: repeat(3,1fr);
-    height: 300px;
-    width: 300px;
-    border: 2px solid black;
-}
-.board__square{
-    border: 2px solid black;
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.root{
+    height: 100vh;
     width: 100%;
-    height: 100%;
+    background-color: rgb(73, 75, 97);
+    font-family: 'Permanent Marker';
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.title{
+    color: ivory;
+    font-size: 4rem;
+}
+
+.board{
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
+.board__row{
+    display: flex;
+    gap: .3rem;
+}
+
+.board__square{
+    width: 5rem;
+    height: 5rem;
+    font-weight: bold;
+    font-size: 2rem;
+    background-color: ivory;
+    border-radius: .2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.red{
+    color: rgb(216, 55, 55);
+}
+
+.green{
+    color: rgb(37, 179, 37);
+}
+
+.red-text{
+    color: rgb(252, 107, 107);
+}
+
+.waiting{
+    font-size: 1.5rem;
+
+    animation-name: waiting;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+}
+
+@keyframes waiting{
+
+    from{
+        color: rgb(160, 235, 116);
+    }
+    to{
+        color: rgb(98, 201, 38);
+    }
+
+}
+
+.turn{
+    font-size: 1.5rem;
+    color: rgb(98, 201, 38);
+}
+
+.result{
+    font-size: 1.5rem;
+}
+
+.button{
+    color: white;
+    font-size: 1.5rem;
+    background: rgb(116, 185, 69);
+    padding: .8rem;
+    border-radius: .3rem;
+    box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.2);
+}
+
+.button:hover{
+    cursor: pointer;
+    background: rgb(93, 150, 56);
 }
