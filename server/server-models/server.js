@@ -25,7 +25,7 @@ class Server{
 
     execute(){
         this.configureSockets()
-        this.server.listen(8000)
+        this.server.listen(process.env.PORT)
     }
 
 }

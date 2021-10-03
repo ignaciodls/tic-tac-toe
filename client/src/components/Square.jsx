@@ -4,12 +4,19 @@ import { useSocket } from '../context/SocketContext'
 
 const Square = ({ x, y, val }) => {
     
-    const { gameState } = useGame()
+    const { gameState,setGameState } = useGame()
     const socket = useSocket()
 
     const handleClick = (e) => { 
         if(gameState.myTurn && !gameState.gameEnded && e.target.textContent === ''){
             socket?.emit('move',  x, y, gameState.mySymbol)
+
+            //PATCH FAST CLICK
+            setGameState({
+                ...gameState,
+                myTurn:false
+            })
+
         }
     }
 

@@ -17,18 +17,19 @@ export function GameProvider(props){
             myTurn:null,
             winner:null,
             waiting:true,
+            draw:false,
             gameEnded:false
         }
     
     },[])
-    
+
     const [gameState, setGameState] = useState(initialState)
 
     const resetState = useCallback(() => {
         setGameState(initialState)
     },[initialState])
 
-    const checkWin = useCallback((newBoard) => {
+    const checkWinOrDraw = useCallback((newBoard) => {
 
         //COLUMNS
         const columns = newBoard.map((_,idx) => {
@@ -58,11 +59,16 @@ export function GameProvider(props){
         diagonals.some(diag => diag.join('') === gameState.opponentSymbol?.repeat(3))){
 
          return gameState.opponentSymbol
-     }
+        }
+
+        //CHECK DRAW
+        if(newBoard.every(row => row.every(val => val !== null))){
+            return 'draw'
+        }
 
     },[gameState.mySymbol, gameState.opponentSymbol])
     
-    const doMoveAndCheckWin = useCallback(({ x, y, symbol }) => {
+    const doMoveAndCheckWinOrDraw = useCallback(({ x, y, symbol }) => {
 
         let newBoard = gameState.board.map((row,i) => {
             return row.map((sqr,j) => {
@@ -84,14 +90,14 @@ export function GameProvider(props){
             }
         })
 
-        return checkWin(newBoard)
+        return checkWinOrDraw(newBoard)
 
-    },[gameState.board, checkWin])
+    },[gameState.board, checkWinOrDraw])
 
     const obj = {
         gameState,
         setGameState,
-        doMoveAndCheckWin,
+        doMoveAndCheckWinOrDraw,
         resetState
     }
 

@@ -32,6 +32,10 @@ class Socket{
                 game.getOpponent(socket).emit('game-ended', winnerSymbol)
             })
 
+            socket.on('draw', () => {
+                socket.emit('draw')
+                game.getOpponent(socket).emit('draw')
+            })
             
             socket.on('disconnecting', () => {
 

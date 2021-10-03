@@ -9,7 +9,7 @@ export function SocketProvider(props){
     const [socket, setSocket] = useState(null)
 
     useEffect(() => {
-        setSocket(socketio('http://localhost:8000',{
+        setSocket(socketio('http://localhost:8000/',{
             forceNew:true,
         }))
     },[])

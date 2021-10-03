@@ -5,7 +5,7 @@ import Square from './Square'
 
 const Board = () => {
 
-    const { gameState, setGameState, doMoveAndCheckWin, resetState } = useGame()
+    const { gameState, setGameState, doMoveAndCheckWinOrDraw, resetState } = useGame()
     const socket = useSocket()
 
     const joinNewGame = useCallback(() => {
@@ -39,10 +39,15 @@ const Board = () => {
     useEffect(() => {
         socket?.on('move', ({ x, y, symbol }) => {
 
-            let winner = doMoveAndCheckWin({ x, y, symbol }) 
+            let res = doMoveAndCheckWinOrDraw({ x, y, symbol }) 
 
-            if(winner){
-                socket?.emit('game-ended', winner)
+            if(res){
+                if(res === 'draw'){
+                    socket?.emit('draw')
+                }
+                else{
+                    socket?.emit('game-ended', res)
+                }
                 return
             }
 
@@ -56,7 +61,7 @@ const Board = () => {
 
         return () => socket?.off('move')
 
-    },[socket, doMoveAndCheckWin, gameState.mySymbol, gameState.myTurn, setGameState])
+    },[socket, doMoveAndCheckWinOrDraw, gameState.mySymbol, gameState.myTurn, setGameState])
     
     useEffect(() => {
         socket?.on('game-ended', (winnerSymbol) => {
@@ -83,6 +88,19 @@ const Board = () => {
 
     },[socket, setGameState])
 
+    useEffect(() => {
+        socket?.on('draw',() => {
+            console.log('draw')
+            setGameState(g => {
+                return {
+                    ...g,
+                    draw:true,
+                    gameEnded:true
+                }
+            })
+        })
+    },[socket, setGameState])
+
     return (
         <div className='root'>
 
@@ -104,7 +122,7 @@ const Board = () => {
                 })}
             </div>
                 {   
-                    (gameState.gameEnded && !gameState.winner) ? 
+                    (gameState.gameEnded && !gameState.winner && !gameState.draw) ? 
                     <div className='result red-text'>
                         Opponent has disconnected
                     </div>:
@@ -114,6 +132,9 @@ const Board = () => {
                         Waiting for opponent to join...
                     </div> :
                     
+                    gameState.draw ?
+                    <div className='result green'>Draw</div> :
+
                     gameState.winner ?
                     gameState.winner === gameState.mySymbol ? 
                     <div className='result green'>
