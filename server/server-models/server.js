@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const socketio = require('socket.io')
+const cors = require('cors')
 
 const Socket = require('./socket')
 
@@ -19,13 +20,20 @@ class Server{
 
     }
 
+    middlewares(){
+      this.app.use(cors({
+        origin:'http://localhost:3000'
+      }))
+    }
+
     configureSockets(){
         new Socket(this.io)
     }
 
     execute(){
+        this.middlewares()
         this.configureSockets()
-        this.server.listen(process.env.PORT)
+        this.server.listen(8000)
     }
 
 }

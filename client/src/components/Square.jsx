@@ -8,15 +8,15 @@ const Square = ({ x, y, val }) => {
     const socket = useSocket()
 
     const handleClick = (e) => { 
-        if(gameState.myTurn && !gameState.gameEnded && e.target.textContent === ''){
+        if(gameState.myTurn && !gameState.gameEnded && e.target.textContent === '' && !gameState.processingTurn){
             socket?.emit('move',  x, y, gameState.mySymbol)
 
-            //PATCH FAST CLICK
-            setGameState({
-                ...gameState,
-                myTurn:false
+            setGameState(g => {
+                return {
+                    ...g,
+                    processingTurn:true
+                }
             })
-
         }
     }
 

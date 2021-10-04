@@ -18,7 +18,8 @@ export function GameProvider(props){
             winner:null,
             waiting:true,
             draw:false,
-            gameEnded:false
+            gameEnded:false,
+            processingTurn:false
         }
     
     },[])

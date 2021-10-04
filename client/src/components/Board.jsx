@@ -54,7 +54,8 @@ const Board = () => {
             setGameState(g => {
                 return{
                     ...g,
-                    myTurn: symbol !== gameState.mySymbol ? true : false
+                    myTurn: symbol !== gameState.mySymbol ? true : false,
+                    processingTurn:false
                 }
             })
         })
@@ -69,7 +70,8 @@ const Board = () => {
                 return {
                     ...g,
                     winner: winnerSymbol,
-                    gameEnded:true
+                    gameEnded:true,
+                    processingTurn:false
                 }
             })
         })
@@ -81,7 +83,8 @@ const Board = () => {
             setGameState(g => {
                 return {
                     ...g,
-                    gameEnded:true
+                    gameEnded:true,
+                    processingTurn:false
                 }
             })
         })
@@ -95,7 +98,9 @@ const Board = () => {
                 return {
                     ...g,
                     draw:true,
-                    gameEnded:true
+                    gameEnded:true,
+                    processingTurn:false
+
                 }
             })
         })
